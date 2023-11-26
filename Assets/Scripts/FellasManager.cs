@@ -6,8 +6,15 @@ public class FellasManager : MonoBehaviour
 {
 
     public GameObject FellasPrefab;
+    public BusStates busref;
     public Transform doorLocation;
     public List<GameObject> allFellasOnBoard = new List<GameObject>();
+
+    public StationManager stationref;
+    public DoorController backdoor;
+    public bool allFellasGone;
+    public int AmountFellasLeave;
+    bool StartCountingFellas;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +24,24 @@ public class FellasManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        RefreshList();
+        if(StartCountingFellas == true)
+        {
+            if(AmountFellasLeave == 0)
+            {
+                allFellasGone = true;
+                StartCountingFellas = false;
+                AmountFellasLeave = 0;
+            }
+            else
+            {
+                allFellasGone = false;
+            }
+        }
+        if(allFellasGone == true)
+        {
+            StartCoroutine(getOffRoutine());
+        }
     }
 
     public void CreateFella()
@@ -30,11 +54,44 @@ public class FellasManager : MonoBehaviour
     {
         if(allFellasOnBoard.Count >0)
         {
-            for(int i =0; i<allFellasOnBoard.Count; i++)
+            for (int i = 0; i < allFellasOnBoard.Count; i++)
             {
-                allFellasOnBoard[allFellasOnBoard.Count].GetComponent<Alien>().FellOffTheBus();
+                allFellasOnBoard[allFellasOnBoard.Count-1].GetComponent<Alien>().FellOffTheBus();
                 break;
             }
         }
+    }
+
+    public void RefreshList()
+    {
+        for (int i = 0; i < allFellasOnBoard.Count; i++)
+        {
+            if(allFellasOnBoard[i].gameObject == null)
+            {
+                allFellasOnBoard.Remove(allFellasOnBoard[i]);
+            }
+        }
+    }
+
+    public void LetFellasOff()
+    {
+        for (int i = 0; i < allFellasOnBoard.Count; i++)
+        {
+            if(allFellasOnBoard[i].gameObject.GetComponent<Alien>().desiredStation == stationref.currentStationName)
+            {
+                AmountFellasLeave += 1;
+                allFellasOnBoard[i].gameObject.GetComponent<Alien>().GetOff();
+                //player score +10;
+            }
+        }
+        StartCountingFellas = true;
+    }
+    IEnumerator getOffRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        backdoor.CloseDoors();
+        busref.SetState(BusStates.BusState.Board);
+        busref.OffCalled = false;
+        allFellasGone = false;
     }
 }

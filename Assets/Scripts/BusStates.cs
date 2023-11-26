@@ -16,11 +16,15 @@ public class BusStates : MonoBehaviour
 
     public bool BoardCalled;
     public bool TravelCalled;
+    public bool OffCalled;
 
     public Animator cameraanimations;
 
     public TravelGame travelref;
     public BoardGame boardref;
+
+    public DoorController backdoor;
+    public FellasManager fellasref;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,7 @@ public class BusStates : MonoBehaviour
                 TravelTime();
                 break;
             case BusState.Off:
+                OffTime();
                 break;
 
         }
@@ -87,8 +92,17 @@ public class BusStates : MonoBehaviour
     }
     public void OffTime()
     {
+        if(OffCalled == false)
+        {
+            calledtoStop = false;
+            cameraanimations.SetBool("Turbulence", false);
+            backdoor.OpenDoors();
+            fellasref.LetFellasOff();
+            OffCalled = true;
+        }
+
         //check for all aliens that need to get off at stop, if theres none left, then 
-        BoardTime();
+
     }
 
 }

@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Alien : MonoBehaviour
 {
     public bool Assigned;
     public Vector3 targetLocation;
+    public Transform leavingArea;
     public float speed;
     public float lerpValue;
     public string desiredStation;
-
+    public GameObject OrbIndicator;
     public List<string> potentialStations = new List<string>();
     BusStates busref;
     StationManager stationref;
@@ -19,14 +21,23 @@ public class Alien : MonoBehaviour
     bool Scanned;
 
     public float MaxHealth;
+    public float currentHealth;
     public bool isFalling;
+    bool GetOffTime;
+
+    public Slider HealthBar;
     // Start is called before the first frame update
     void Start()
     {
 
         busref = GameObject.FindObjectOfType<BusStates>();
         stationref = GameObject.FindObjectOfType<StationManager>();
+       
+        leavingArea = GameObject.FindGameObjectWithTag("Leave").transform;
         StartCoroutine(BoardRoutine());
+
+        currentHealth = MaxHealth;
+        HealthBar.maxValue = MaxHealth;
     }
 
     // Update is called once per frame
@@ -34,10 +45,7 @@ public class Alien : MonoBehaviour
     {
         if(busref.currentbusState == BusStates.BusState.Off)
         {
-            if(stationref.currentStationName == desiredStation)
-            {
-                GetOff();
-            }
+            alienAnimations.SetBool("Hold", false);
         }
         else if(busref.currentbusState == BusStates.BusState.Travel)
         {
@@ -68,13 +76,43 @@ public class Alien : MonoBehaviour
             {
                 lerpValue = 0;
                 alienAnimations.SetBool("Sit", true);
+                Scanned = false;
             }
+        }
+        if(GetOffTime == true)
+        {
+            if (transform.position != leavingArea.position)
+            {
+                lerpValue += Time.deltaTime * speed;
+                transform.position = Vector3.Lerp(transform.position, leavingArea.position, lerpValue);
+            }
+            else
+            {
+                Destroy(this.gameObject, 2f);
+            }
+        }
+        HealthBar.value = currentHealth;
+        if(currentHealth <=0)
+        {
+            alienAnimations.SetBool("Die", true);
         }
     }
 
     IEnumerator BoardRoutine()
     {
         desiredStation = potentialStations[Random.Range(0, potentialStations.Count)];
+        if(desiredStation == "Red")
+        {
+            OrbIndicator.GetComponent<SpriteRenderer>().color = Color.red;
+        }
+        else if (desiredStation == "Green")
+        {
+            OrbIndicator.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+        else
+        {
+            OrbIndicator.GetComponent<SpriteRenderer>().color = Color.magenta;
+        }
         alienAnimations.SetTrigger("Scan");
         yield return new WaitForSeconds(1f);
         Scanned = true;
@@ -83,7 +121,7 @@ public class Alien : MonoBehaviour
     void HoldOn()
     {
         alienAnimations.SetBool("Hold", true);
-        MaxHealth -= 0.1f;
+        currentHealth -= 0.1f;
     }
 
     void LetGo()
@@ -95,10 +133,16 @@ public class Alien : MonoBehaviour
         if(isFalling == false)
         {
             isFalling = true;
+            alienAnimations.SetBool("Falling", true);
         }
     }
-    void GetOff()
+    public void BroDied()
     {
-        //Play Animation, and add to player score counter
+        Destroy(gameObject);
+    }
+    public void GetOff()
+    {
+        alienAnimations.SetBool("Sit", false);
+        GetOffTime = true;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TravelGame : MonoBehaviour
 {
     public BusStates busref;
@@ -12,8 +13,8 @@ public class TravelGame : MonoBehaviour
 
     public Animator cameraanimations;
 
-    private float elapsedTime;
-    private float maxTime;
+    public float elapsedTime;
+    public float maxTime;
     public float t;
 
     public bool TimerStarted;
@@ -27,10 +28,15 @@ public class TravelGame : MonoBehaviour
     public bool delayFinished;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         elapsedTime = 0;
-        maxTime = 20;
+        maxTime = 10;
+
+    }
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
@@ -83,21 +89,25 @@ public class TravelGame : MonoBehaviour
     }
     void TravelGameEnd()
     {
-        if(busref.calledtoStop == true)
+        stationref.updateStationName();
+        TimerStarted = false;
+
+        if (busref.calledtoStop == true)
         {
-            busref.OffTime();
+            busref.SetState(BusStates.BusState.Off);
+            
         }
         else
         {
-            TravelGameStart();
-            busref.BoardCalled = false;
+           
         }
+        busref.TravelCalled = false;
     }
     public void TravelGameStart()
     {
         stationref.goToNextStation();
         elapsedTime = 0;
-        maxTime = 20;
+        maxTime = 10;
         TimerStarted = true;
 
     }
@@ -138,6 +148,7 @@ public class TravelGame : MonoBehaviour
     {
         canSomeoneDie = false;
         Debug.Log("someone died");
+        fellasref.OneFellaFell();
         yield return new WaitForSeconds(5);
         canSomeoneDie = true;
     }

@@ -170,7 +170,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 2.0166667
+        time: 2
         value: 10
         inSlope: Infinity
         outSlope: Infinity
@@ -687,7 +687,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 2.0166667
+        time: 2
         value: 10
         inSlope: Infinity
         outSlope: Infinity
@@ -735,4 +735,11 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 2
+    functionName: AlertObservers
+    data: AnimationEnded
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
