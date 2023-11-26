@@ -13,10 +13,14 @@ public class BusStates : MonoBehaviour
     public BusState currentbusState;
 
     public bool calledtoStop;
-    public StationManager stationref;
 
     public bool BoardCalled;
     public bool TravelCalled;
+
+    public Animator cameraanimations;
+
+    public TravelGame travelref;
+    public BoardGame boardref;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,11 +62,12 @@ public class BusStates : MonoBehaviour
 
     void BoardTime()
     {
-        //check camera animation controller
         //start board Coroutine;
         if(BoardCalled == false)
         {
+            cameraanimations.SetBool("Traveling", false);
             //start board minigame
+            boardref.BoardGameStart();
             BoardCalled = true;
         }
     }
@@ -73,7 +78,8 @@ public class BusStates : MonoBehaviour
         {
             //check camera animation controller, close bus doors and pan to left
             //start travel Coroutine;
-            stationref.goToNextStation();
+            travelref.TravelGameStart();
+            cameraanimations.SetBool("Traveling", true);
             TravelCalled = true;
         }
 

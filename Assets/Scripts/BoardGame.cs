@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BoardGame : MonoBehaviour
 {
@@ -14,11 +15,21 @@ public class BoardGame : MonoBehaviour
     public List<HandRails> totalRails = new List<HandRails>();
 
     public FellasManager fellaref;
+
+    public TMP_Text timerText;
+    private float elapsedTime;
+    private float maxTime;
+    public float t;
+
+    public bool TimerStarted;
+
+    public DoorController doorref;
     // Start is called before the first frame update
     public BusStates busref;
     void Start()
     {
-        
+        elapsedTime = 0;
+        maxTime = 10;
     }
 
     // Update is called once per frame
@@ -32,6 +43,21 @@ public class BoardGame : MonoBehaviour
                 AssigntoHandRail();
             }
         }
+        if(TimerStarted == true)
+        {
+            elapsedTime += Time.deltaTime;
+            t = maxTime - elapsedTime;
+            string hours = ((int)t / 60).ToString();
+            string minutes = ((int)t % 60).ToString("00");
+
+            timerText.text = hours + ":" + minutes;
+            if (t <= 0)
+            {
+                BoardGameEnd();
+
+            }
+        }
+
     }
 
     void AssigntoHandRail()
@@ -52,10 +78,21 @@ public class BoardGame : MonoBehaviour
             }
         }
     }
-    void BoardGameStart()
+
+    public void BoardGameStart()
     {
+        TimerStarted = true;
+        doorref.OpenDoors();
+    }
+    void BoardGameEnd()
+    {
+
         //when t == 0
+        doorref.CloseDoors();
         busref.SetState(BusStates.BusState.Travel);
         busref.BoardCalled = false;
+        TimerStarted = false;
+        elapsedTime = 0;
+        maxTime = 10;
     }
 }

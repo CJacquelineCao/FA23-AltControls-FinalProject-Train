@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StationManager : MonoBehaviour
 {
+    [System.Serializable]
     public class StationsInfo
     {
         public string stationType;
