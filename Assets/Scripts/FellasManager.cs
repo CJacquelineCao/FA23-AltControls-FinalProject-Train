@@ -7,6 +7,7 @@ public class FellasManager : MonoBehaviour
 
     public GameObject FellasPrefab;
     public BusStates busref;
+    public BoardGame boardref;
     public Transform doorLocation;
     public List<GameObject> allFellasOnBoard = new List<GameObject>();
 
@@ -15,6 +16,8 @@ public class FellasManager : MonoBehaviour
     public bool allFellasGone;
     public int AmountFellasLeave;
     bool StartCountingFellas;
+
+    public GameController gamecontrollerref;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +30,7 @@ public class FellasManager : MonoBehaviour
         RefreshList();
         if(StartCountingFellas == true)
         {
-            if(AmountFellasLeave == 0)
+            if(AmountFellasLeave <= 1)
             {
                 allFellasGone = true;
                 StartCountingFellas = false;
@@ -46,8 +49,16 @@ public class FellasManager : MonoBehaviour
 
     public void CreateFella()
     {
-       GameObject createdFella = Instantiate(FellasPrefab, doorLocation.position, Quaternion.identity);
-        allFellasOnBoard.Add(createdFella);
+        if(boardref.BusFull == false)
+        {
+            GameObject createdFella = Instantiate(FellasPrefab, doorLocation.position, Quaternion.identity);
+            allFellasOnBoard.Add(createdFella);
+        }
+        else
+        {
+            //Bus is full, no one can get on now.
+        }
+
     }
 
     public void OneFellaFell()
@@ -81,7 +92,8 @@ public class FellasManager : MonoBehaviour
             {
                 AmountFellasLeave += 1;
                 allFellasOnBoard[i].gameObject.GetComponent<Alien>().GetOff();
-                //player score +10;
+
+                gamecontrollerref.PlayerMoneyCount += 10;
             }
         }
         StartCountingFellas = true;

@@ -9,6 +9,7 @@ public class BoardGame : MonoBehaviour
     public class HandRails
     {
         public GameObject handRailObject;
+        public GameObject assignedAlien;
         public bool Taken;
     }
 
@@ -24,6 +25,8 @@ public class BoardGame : MonoBehaviour
     public bool TimerStarted;
 
     public DoorController doorref;
+
+    public bool BusFull;
     // Start is called before the first frame update
     public BusStates busref;
     void Start()
@@ -57,6 +60,7 @@ public class BoardGame : MonoBehaviour
 
             }
         }
+        refreshHandRail();
 
     }
 
@@ -72,13 +76,44 @@ public class BoardGame : MonoBehaviour
                     {
                         fellaref.allFellasOnBoard[a].GetComponent<Alien>().targetLocation = totalRails[i].handRailObject.transform.position;
                         totalRails[i].Taken = true;
+                        totalRails[i].assignedAlien = fellaref.allFellasOnBoard[a];
                         fellaref.allFellasOnBoard[a].GetComponent<Alien>().Assigned = true;
                     }
                 }
             }
         }
+        if (AreAllRailsFull())
+        {
+            BusFull = true;
+        }
+        else
+        {
+            BusFull = false;
+        }
     }
+    void refreshHandRail()
+    {
+        for (int i = 0; i < totalRails.Count; i++)
+        {
+            if(totalRails[i].assignedAlien == null)
+            {
+                totalRails[i].Taken = false;
+            }
 
+        }
+    }
+    public bool AreAllRailsFull()
+    {
+        for (int i = 0; i < totalRails.Count; i++)
+        {
+            if (totalRails[i].Taken == false)
+            {
+                return false;
+            }
+  
+        }
+        return true;
+    }
     public void BoardGameStart()
     {
         TimerStarted = true;

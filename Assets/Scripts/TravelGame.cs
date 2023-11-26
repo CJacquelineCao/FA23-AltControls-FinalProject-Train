@@ -47,7 +47,7 @@ public class TravelGame : MonoBehaviour
         {
             if (hasTurbulance == false)
             {
-                int willTurbulenceHappen = Random.Range(0, 50);
+                int willTurbulenceHappen = Random.Range(0, 300);
                 if (willTurbulenceHappen == 0)
                 {
                     hasTurbulance = true;
@@ -117,7 +117,7 @@ public class TravelGame : MonoBehaviour
         turbcalled = true;
         cameraanimations.SetBool("Turbulence", true);
         StartCoroutine(checkHandRail());
-        yield return new WaitForSeconds(Random.Range(5,9));
+        yield return new WaitForSeconds(Random.Range(3,5));
         hasTurbulance = false;
         cameraanimations.SetBool("Turbulence", false);
         turbcalled = false;
