@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public int PlayerMoneyCount;
     public TMP_Text MoneyText;
 
-    public float elapsedTime;
-    public float maxTime;
-    public float t;
-
-    public bool TimerStarted;
+    public bool GameEnded;
     // Start is called before the first frame update
     void Start()
     {
-        TimerStarted = true;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
@@ -24,14 +21,15 @@ public class GameController : MonoBehaviour
     {
         MoneyText.text = "$" + PlayerMoneyCount;
 
-        if (TimerStarted == true)
+        if(GameEnded == true)
         {
-            elapsedTime += Time.deltaTime;
-            t = maxTime - elapsedTime;
-            if (t <= 0)
+            if(SceneManager.GetActiveScene().buildIndex ==1)
             {
-                //load endscene and show playerScore
+                SceneManager.LoadScene(2);
             }
+
         }
     }
+
+    
 }

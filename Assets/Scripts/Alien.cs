@@ -49,11 +49,11 @@ public class Alien : MonoBehaviour
         }
         else if(busref.currentbusState == BusStates.BusState.Travel)
         {
-            if(Input.GetKey(KeyCode.W))
+            if(Input.GetKey(KeyCode.RightArrow))
             {
                 HoldOn();
             }
-            if(Input.GetKeyUp(KeyCode.W))
+            if(Input.GetKeyUp(KeyCode.RightArrow))
             {
                 LetGo();
             }
@@ -91,7 +91,7 @@ public class Alien : MonoBehaviour
                 Destroy(this.gameObject, 2f);
             }
         }
-        currentHealth -= 0.01f;
+        currentHealth -= 0.005f;
         HealthBar.value = currentHealth;
         if(currentHealth <=0)
         {
@@ -122,7 +122,7 @@ public class Alien : MonoBehaviour
     void HoldOn()
     {
         alienAnimations.SetBool("Hold", true);
-        currentHealth -= 0.1f;
+        currentHealth -= 0.03f;
     }
 
     void LetGo()

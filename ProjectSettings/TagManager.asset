@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Leave
   - Alien
+  - Game
   layers:
   - Default
   - TransparentFX

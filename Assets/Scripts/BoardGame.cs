@@ -40,7 +40,7 @@ public class BoardGame : MonoBehaviour
     {
         if(busref.currentbusState == BusStates.BusState.Board)
         {
-            if(Input.GetKeyDown(KeyCode.D))
+            if(Input.GetKeyDown(KeyCode.UpArrow))
             {
                 fellaref.CreateFella();
                 AssigntoHandRail();
