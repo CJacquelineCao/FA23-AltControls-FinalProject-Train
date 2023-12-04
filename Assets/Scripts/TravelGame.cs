@@ -68,11 +68,11 @@ public class TravelGame : MonoBehaviour
 
             }
 
-            if(Input.GetKey(KeyCode.Space))
+            if(Input.GetKey(KeyCode.RightArrow))
             {
                 handRailHeld = true;
             }
-            if(Input.GetKeyUp(KeyCode.Space))
+            if(Input.GetKeyUp(KeyCode.RightArrow))
             {
                 handRailHeld = false;
             }

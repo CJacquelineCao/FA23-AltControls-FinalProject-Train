@@ -18,6 +18,8 @@ public class FellasManager : MonoBehaviour
     bool StartCountingFellas;
 
     public GameController gamecontrollerref;
+
+    public AudioSource beepSound;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,7 @@ public class FellasManager : MonoBehaviour
         if(boardref.BusFull == false)
         {
             GameObject createdFella = Instantiate(FellasPrefab, doorLocation.position, Quaternion.identity);
+            beepSound.Play();
             allFellasOnBoard.Add(createdFella);
         }
         else
