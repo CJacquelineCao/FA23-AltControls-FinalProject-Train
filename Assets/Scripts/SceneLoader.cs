@@ -21,7 +21,10 @@ public class SceneLoader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            LoadGameScene();
+        }
     }
     public void LoadGameScene()
     {
@@ -40,5 +43,9 @@ public class SceneLoader : MonoBehaviour
 
         }
         SceneManager.LoadScene(0);
+    }
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene(3);
     }
 }

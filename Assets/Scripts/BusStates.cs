@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BusStates : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class BusStates : MonoBehaviour
 
     public DoorController backdoor;
     public FellasManager fellasref;
+
+    public TextMeshProUGUI stationText;
+    public AudioSource stopRequestedVoice;
+
+    bool audioplayed;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +59,21 @@ public class BusStates : MonoBehaviour
             if(currentbusState == BusState.Travel)
             {
                 calledtoStop = true;
+                if(audioplayed == false)
+                {
+                    stopRequestedVoice.Play();
+                    audioplayed = true;
+                }
             }
+
+        }
+        if(calledtoStop == true)
+        {
+            stationText.text = "Stopping at next station...";
+        }
+        else
+        {
+            stationText.text = "...";
 
         }
     }
@@ -71,6 +91,7 @@ public class BusStates : MonoBehaviour
         if(BoardCalled == false)
         {
             cameraanimations.SetBool("Traveling", false);
+            audioplayed = false;
             //start board minigame
             boardref.BoardGameStart();
             BoardCalled = true;
@@ -83,6 +104,7 @@ public class BusStates : MonoBehaviour
         {
             //check camera animation controller, close bus doors and pan to left
             //start travel Coroutine;
+
             travelref.TravelGameStart();
             cameraanimations.SetBool("Traveling", true);
             TravelCalled = true;

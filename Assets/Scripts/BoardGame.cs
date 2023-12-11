@@ -32,7 +32,7 @@ public class BoardGame : MonoBehaviour
     void Start()
     {
         elapsedTime = 0;
-        maxTime = 10;
+        maxTime = 4;
     }
 
     // Update is called once per frame
@@ -128,6 +128,6 @@ public class BoardGame : MonoBehaviour
         busref.BoardCalled = false;
         TimerStarted = false;
         elapsedTime = 0;
-        maxTime = 10;
+        maxTime = 4;
     }
 }

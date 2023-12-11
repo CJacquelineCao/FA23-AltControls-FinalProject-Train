@@ -91,7 +91,7 @@ public class Alien : MonoBehaviour
                 Destroy(this.gameObject, 2f);
             }
         }
-        currentHealth -= 0.008f;
+        currentHealth -= 0.03f;
         HealthBar.value = currentHealth;
         if(currentHealth <=0)
         {
@@ -122,7 +122,7 @@ public class Alien : MonoBehaviour
     void HoldOn()
     {
         alienAnimations.SetBool("Hold", true);
-        currentHealth -= 0.03f;
+        currentHealth -= 0.1f;
     }
 
     void LetGo()

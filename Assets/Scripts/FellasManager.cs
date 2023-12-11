@@ -95,8 +95,29 @@ public class FellasManager : MonoBehaviour
             {
                 AmountFellasLeave += 1;
                 allFellasOnBoard[i].gameObject.GetComponent<Alien>().GetOff();
-
-                gamecontrollerref.PlayerMoneyCount += 10;
+                int multiplierValue;
+                if(allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth > 80)
+                {
+                    multiplierValue = 5;
+                }
+                else if(allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth <= 80 && allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth > 60)
+                {
+                    multiplierValue = 4;
+                }
+                else if(allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth <= 60 && allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth > 40)
+                {
+                    multiplierValue = 3;
+                }
+                else if(allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth <= 40 && allFellasOnBoard[i].gameObject.GetComponent<Alien>().currentHealth > 20)
+                {
+                    multiplierValue = 2;
+                }
+                else
+                {
+                    multiplierValue = 1;
+                }
+                
+                gamecontrollerref.PlayerMoneyCount += 10 * multiplierValue;
             }
         }
         StartCountingFellas = true;
