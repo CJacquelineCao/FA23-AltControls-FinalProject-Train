@@ -91,7 +91,7 @@ public class Alien : MonoBehaviour
                 Destroy(this.gameObject, 2f);
             }
         }
-        currentHealth -= 0.005f;
+        currentHealth -= 0.008f;
         HealthBar.value = currentHealth;
         if(currentHealth <=0)
         {
