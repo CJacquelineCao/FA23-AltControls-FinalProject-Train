@@ -14,8 +14,6 @@ public class SceneLoader : MonoBehaviour
         {
             game = gameref.GetComponent<GameController>();
         }
-
-
     }
 
     // Update is called once per frame
